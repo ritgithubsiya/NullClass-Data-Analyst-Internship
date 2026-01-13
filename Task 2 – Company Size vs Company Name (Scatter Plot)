@@ -1,0 +1,79 @@
+Task 2 – Company Size vs Company Name (Scatter Plot) – Updated Filter Implementation in Tableau
+Objective
+Created a scatter plot showing Company Size (horizontal axis) vs Company Name (vertical axis / labels), with each dot representing one job posting.
+Only very specific Mechanical Engineer jobs are shown after applying multiple strict filters.
+Filters / Conditions Applied:
+
+Job Title must be exactly “Mechanical Engineer”
+→ Dragged Job Title field to Filters shelf
+→ Selected only “Mechanical Engineer” from the list
+→ This keeps only exact matches (no similar titles like “Senior Mechanical Engineer”).
+
+Work Type = Full-Time or Part-Time
+→ Dragged Work Type field to Filters shelf
+→ Checked both “Full-Time” and “Part-Time”
+→ Excluded all other types (Intern, Contract, etc.)
+
+Preference = Male
+→ Dragged Preference field to Filters shelf
+→ Selected only “Male”
+
+Job Portal = Idealist
+→ Dragged Job Portal field to Filters shelf
+→ Selected only “Idealist”
+
+Country must be in Asia but not starting with “I”
+→ Created calculated field named asia country (or similar):
+→ Formula:textIF [Country] IN (
+    "China", "Japan", "South Korea", "Pakistan",
+    "Bangladesh", "Sri Lanka", "Nepal", "Bhutan",
+    "Myanmar", "Thailand", "Vietnam", "Malaysia",
+    "Singapore", "Philippines", "Cambodia",
+    "Laos", "Mongolia", "Saudi Arabia", "UAE",
+    "Qatar", "Kuwait", "Bahrain", "Oman",
+    "Yemen", "Jordan", "Lebanon", "Syria",
+    "Turkey", "Afghanistan", "Maldives", "Brunei",
+    "Macao SAR", "Syrian Arab Republic", "North Korea",
+    "Azerbaijan", "Armenia", "Kyrgyz Republic", "Russia"
+    // added any Asian countries present in my data
+)
+AND LEFT([Country],1) <> "I"
+THEN TRUE
+ELSE FALSE
+END→ Dragged this calculated field to Filters shelf → Selected True
+→ This keeps only Asian countries (listed explicitly) and excludes any starting with “I” (like India, Indonesia, Iran, Iraq, Israel, etc.).
+
+Experience must be > 5 years
+→ Dragged Experience field to Filters shelf
+→ Selected “Range of Values”
+→ Set minimum > 5 (or created calculated field: INT([Experience]) > 5 → True)
+
+Salary must be above $50,000
+→ Created calculated field named minimum salary extracted (same logic as Task 1)
+→ Dragged Company Size field to Filters shelf
+→ Selected “Range of Values”
+→ Set maximum = 49,999
+
+Company Name must have at least 2 vowels
+→ Created calculated field named twoVowelComp (or “at least 2 vowels”):
+→ Formula:textLEN(REGEXP_REPLACE(LOWER([Company]), '[^aeiou]', '')) >= 2→ Dragged this field to Filters shelf → Selected True
+→ This ensures company names have at least 2 vowels (a, e, i, o, u – case insensitive), like “General Dynamics” or “Deutsche Post”.
+
+Chart must only be displayed between 3 PM and 5 PM IST
+→ Created calculated field named show chart time(same logic as Task 1)
+→ This hides the chart outside 3:00 PM – 4:59 PM IST (based on system time).
+
+Chart Setup Summary:
+
+Columns: Company Size (continuous measure)
+Rows: Company (dimension – shows company names vertically)
+Mark type: Circle (Automatic worked well)
+Detail / Label: Company (so names appear next to dots)
+Size: Slightly adjusted for better visibility
+Title: “Task2-Scatter Plot”
+
+Result Note:
+Only a few companies remained after all strict filters:
+Deutsche Post DHL Group, General Dynamics, Knight-Swift Transportation Holdings, UGI, Xiaomi Corporation.
+Each dot shows one posting with company size on x-axis and name on y-axis/labels.
+This scatter plot clearly highlights larger companies (up to ~46K employees) that posted Mechanical Engineer jobs matching all conditions.
