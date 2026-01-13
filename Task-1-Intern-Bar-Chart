@@ -1,0 +1,77 @@
+Task 1 – Preference vs Work Type (Intern Bar Chart) – Filter Implementation in Tableau
+Objective:
+Created a bar chart showing the number of Intern job postings by Preference (Both, Female, Male) after applying multiple strict conditions. The bars are sorted in descending order by count.
+Filters / Conditions Applied:
+
+Work Type must be “Intern”
+→ Dragged the Work Type field to the Filters shelf
+→ Selected only “Intern” from the list
+→ This ensures the chart shows data only for internship positions.
+
+Latitude must be below 10
+→ Dragged Latitude field to Filters shelf
+→ Chose “Range of Values”
+→ Set maximum value to 9.99 (or < 10)
+→ This keeps only job postings located near or below the equator.
+
+Country name must not start with A, B, C, or D
+→ Dragged Country field to Filters shelf
+→ Went to the General tab
+→ Manually selected all countries that do not start with A, B, C, or D (unselected A*, B*, C*, D* starting ones)
+→ This removes countries like Australia, Brazil, Canada, Denmark, etc. from the beginning letters.
+
+Job Title must be a single word with fewer than 10 characters
+→ Created calculated field named “job title filter”
+→ Formula:textLEN(TRIM([Job Title])) < 10 
+AND 
+CONTAINS([Job Title], ' ') = FALSE→ Dragged this field to Filters shelf → Selected True
+→ This keeps only short, single-word job titles (example: “Nurse”, “Paralegal”, “Driver”)
+
+Company Size must be below 50,000
+→ Dragged Company Size field to Filters shelf
+→ Selected “Range of Values”
+→ Set maximum = 49,999
+→ This includes only jobs from small and medium companies (less than 50,000 employees)
+
+Salary must be above $9,000
+→ Step 1: Created calculated field named minimum salary extracted
+→ Formula (extracts the lower end of salary range and handles "K" notation):textFLOAT(
+    REGEXP_REPLACE(
+        REGEXP_EXTRACT([Salary Range], '(\d{1,3}(,\d{3})*(\.\d+)?)'),
+        ',', ''
+    )
+)
+*
+IF CONTAINS(LOWER([Salary Range]), 'k') THEN 1000 ELSE 1 END→ Step 2: Created another calculated field named salary > 9000
+→ Formula:text[minimum salary extracted] > 9000→ Dragged salary > 9000 to Filters shelf → Selected True
+→ This keeps only postings where the starting salary is more than $9,000.
+
+Experience must be an even number
+→ Created calculated field named “even experience”
+→ Formula:textINT([Experience]) % 2 = 0→ Dragged to Filters shelf → Selected True
+→ This keeps only rows where years of experience are even (2, 4, 6, 8…)
+
+Job Posting Date must be in an odd-numbered month
+→ Created calculated field named “odd month”
+→ Formula:textMONTH([Job Posting Date]) % 2 = 1→ Dragged to Filters shelf → Selected True
+→ This includes only postings done in January, March, May, July, September, November.
+
+Chart must only be displayed between 3 PM and 5 PM IST
+→ Created calculated field named “show chart time” (or similar)
+→ Formula:textIF DATEPART('hour', NOW()) >= 15
+AND DATEPART('hour', NOW()) < 17
+THEN TRUE
+ELSE FALSE
+END→ Dragged to Filters shelf → Selected True
+→ This makes the chart visible only during 3:00 PM – 4:59 PM IST (based on the current system time).
+
+Chart Setup Summary
+
+Columns: Preference
+Rows: AGG(Postings count) ← created calculated field with value 1 to count rows
+Mark type: Automatic (Bar)
+Sorted descending by Postings count
+Title: “Task1-Intern, Bar Chart”
+
+Result Note
+After applying all these conditions together, only a small number of postings remained (around 60 for Both, 50 for Female, 41 for Male). This shows how selective and strict the task requirements were.
