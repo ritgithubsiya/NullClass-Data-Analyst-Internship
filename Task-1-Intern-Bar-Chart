@@ -65,7 +65,7 @@ ELSE FALSE
 END→ Dragged to Filters shelf → Selected True
 → This makes the chart visible only during 3:00 PM – 4:59 PM IST (based on the current system time).
 
-Chart Setup Summary
+Chart Setup Summary:
 
 Columns: Preference
 Rows: AGG(Postings count) ← created calculated field with value 1 to count rows
@@ -73,5 +73,5 @@ Mark type: Automatic (Bar)
 Sorted descending by Postings count
 Title: “Task1-Intern, Bar Chart”
 
-Result Note
+Result Note:
 After applying all these conditions together, only a small number of postings remained (around 60 for Both, 50 for Female, 41 for Male). This shows how selective and strict the task requirements were.
