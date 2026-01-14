@@ -1,0 +1,100 @@
+Task 4 – Qualification Drilldown Map (Map with Click) – Filter Implementation in Tableau
+Objective
+Created an interactive map visualization showing job postings in Africa for qualifications B.Tech, M.Tech, or PhD.
+Each orange dot represents a job posting (plotted using average Latitude and Longitude).
+Clicking on any dot drills down to a second map showing more detailed/exact location information.
+Only specific Full-Time jobs are included after applying strict filters.
+How I Built It (Step-by-Step Structure in Tableau)
+
+Created main sheet: Task4a-Africa job map → Primary map with dots across Africa.
+Created second sheet: Task4b-drilldown location map → Detailed/zoomed view when clicked.
+Combined both sheets into a Dashboard named “Task4-Map with Click”.
+Used Dashboard → Actions → Filter action: Clicking a dot on the main map filters the drilldown sheet.
+Added floating text message: “Click any orange dot to see detailed location drilldown”
+Added time restriction note: “Map visible only between 3 PM and 6 PM IST”
+
+
+Filters / Conditions Applied (how I implemented them)
+
+Qualification must be B.Tech, M.Tech, or PhD
+→ Dragged Qualifications field to Filters shelf
+→ Selected only “B.Tech”, “M.Tech”, and “PhD”
+→ This keeps only higher education qualifications.
+
+Work Type = Full-Time
+→ Dragged Work Type field to Filters shelf
+→ Selected only “Full-Time”
+
+Country must be in Africa (other countries ignored)
+→ Created calculated field named Is Africa (or similar):
+→ Formula:textCONTAINS(
+    "Algeria;Angola;Benin;Botswana;Burkina Faso;Burundi;Cabo Verde;Cameroon;Central African Republic;Chad;Comoros;Republic Of Congo;Democratic Republic Of Congo;Cote d'Ivoire;Djibouti;Egypt;Equatorial Guinea;Eritrea;Eswatini;Ethiopia;Gabon;Gambia;Ghana;Guinea;Guinea-Bissau;Kenya;Lesotho;Liberia;Libya;Madagascar;Malawi;Mali;Mauritania;Mauritius;Morocco;Mozambique;Namibia;Niger;Nigeria;Rwanda;Sao Tome and Principe;Senegal;Seychelles;Sierra Leone;Somalia;South Africa;South Sudan;Sudan;Tanzania;Togo;Tunisia;Uganda;Zambia;Zimbabwe",
+    [Country]
+)→ Dragged Is Africa to Filters shelf → Selected True
+→ This keeps only African countries (listed in a semicolon-separated string) and ignores all others.
+
+Job Title must start with “D”
+→ Dragged Job Title field to Filters shelf
+→ Went to Wild Card tab
+→ Selected “Starts with” → typed “D”
+→ This includes titles like “Data Scientist”, “Developer”, “Director”, etc.
+
+Preference = Male
+→ Dragged Preference field to Filters shelf
+→ Selected only “Male”
+
+Company Size must be greater than 80,000
+→ Dragged Company Size field to Filters shelf
+→ Selected “Range of Values”
+→ Set minimum > 80,000 (e.g., 80,001 and above)
+
+Contact Person must start with “A”
+→ Dragged Contact Person field to Filters shelf
+→ Went to Wild Card tab
+→ Selected “Starts with” → typed “A”
+→ This keeps only contact names starting with A (e.g., Alex, Ahmed, Anna, etc.).
+
+Job Portal = Indeed
+→ Dragged Job Portal field to Filters shelf
+→ Selected only “Indeed”
+
+Salary Range > $20,000
+→ Created/reused calculated field salary > 20000:
+→ Used the same minimum salary extracted logic (from previous tasks)
+→ Then: [minimum salary extracted] > 20000
+→ Dragged to Filters shelf → Selected True
+
+Chart must only be displayed between 3 PM and 6 PM IST
+→ Created calculated field named show chart time:textIF DATEPART('hour', NOW()) >= 15
+AND DATEPART('hour', NOW()) < 18
+THEN TRUE
+ELSE FALSE
+END→ Dragged to Filters shelf → Selected True
+→ This hides the map outside 3:00 PM – 5:59 PM IST (based on system time).
+
+Map Setup Summary:
+
+Main Sheet (Task4a-Africa job map):
+Columns: AVG(Longitude)
+Rows: AVG(Latitude)
+Mark type: Circle
+Color: Qualifications (orange for B.Tech, brown for M.Tech, gray for PhD)
+Size: Adjusted for visibility
+Detail/Tooltip:  Company, Country
+
+Drilldown Sheet (Task4b-drilldown location map):
+Similar map setup but configured for more detail (e.g., different zoom level or extra labels).
+Filtered dynamically via dashboard action.
+
+Dashboard (Task4-Map with Click):
+Main map on top/left
+Drilldown map below/right
+Action: Click on main map dot filters the drilldown sheet
+Floating text messages for time restriction and interaction guide
+
+
+Result Note:
+The map displays orange dots only in Africa for Full-Time jobs matching all conditions.
+Dots are colored by qualification level.
+Clicking any dot opens a drilldown view with more precise location details.
+Very few points appear due to the strict filters (e.g., Job Title starting with D, Contact starting with A, large company size, Indeed portal, salary > $20,000).
