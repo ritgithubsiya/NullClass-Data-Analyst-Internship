@@ -1,0 +1,104 @@
+Task 3 – Top 10 Companies (Tree Map) – Filter Implementation in Tableau
+Objective
+Created a tree map showing the top 10 companies (by company size) that posted jobs with Role = Data Engineer and Job Title = Data Scientist.
+The size of each rectangle represents the company size — bigger rectangle = larger company.
+Only very specific postings are included after applying strict filters.
+
+Filters / Conditions Applied :
+
+Role must be “Data Engineer”:
+→ Dragged Role field to Filters shelf
+→ Selected only “Data Engineer”
+→ This ensures only Data Engineer roles are shown.
+
+Job Title must be “Data Scientist”:
+→ Dragged Job Title field to Filters shelf
+→ Selected only “Data Scientist”
+→ This keeps only exact matches for Data Scientist titles.
+
+Exclude Asian countries:
+→ Created calculated field named asia country (reused from Task 2)
+→ Set it to False (filtered to exclude Asia)
+→ OR manually unselected Asian countries in the Country filter
+→ This removes all postings from Asian countries.
+
+Exclude any countries starting with the letter “C”:
+→ Dragged Country field to Filters shelf
+→ Went to General tab
+→ Excluded all countries starting with “C” using wildcard exclude “C*”
+→ This removes countries like China, Canada, Colombia, etc.
+
+Latitude must be below 10:
+→ Dragged Latitude field to Filters shelf
+→ Selected “Range of Values”
+→ Set maximum < 10 (e.g., up to 9.99)
+→ Note: This filter makes the tree map blank in the main sheet.
+So I moved it to the dashboard with a floating message:
+“Apply Latitude < 10 to see filtered view (currently showing all latitudes).”
+
+Preference must be Female:
+→ Dragged Preference field to Filters shelf
+→ Selected only “Female”
+
+Qualification must be exactly B.Tech:
+→ Dragged Qualifications field to Filters shelf
+→ Selected only “B.Tech”
+→ Note: This filter also causes blank result in main view.
+Moved to dashboard with floating text message:
+“Apply B.Tech qualification to filter (currently showing all qualifications).”
+
+Job Posting Date must be between 01/01/2023 and 06/01/2023:
+→ Dragged Job Posting Date field to Filters shelf
+→ Selected “Range of Dates”
+→ Set start: 01/01/2023 → end: 06/01/2023
+→ This includes only postings in the first 6 months of 2023.
+
+Job Portal = LinkedIn
+→ Dragged Job Portal field to Filters shelf
+→ Selected only “LinkedIn”
+→ Note: This filter blanks the map when combined with others.
+Added as optional in dashboard with message:
+“Apply LinkedIn portal filter to see only LinkedIn postings.”
+
+Company Size ≥ 10,000
+→ Dragged Company Size field to Filters shelf
+→ Selected “Range of Values”
+→ Set minimum = 10,000
+→ Note: This also causes blank when all filters are on.
+Added floating message in dashboard:
+“Apply Company Size ≥ 10,000 to filter larger companies.”
+
+Contact Person name must end with a vowel
+→ Created calculated field named ends with vowel:
+→ Formula:textCONTAINS("aeiouAEIOU", RIGHT([Contact Person], 1)) = TRUE→ Dragged to Filters shelf → Selected True
+→ This keeps only contact names ending with a, e, i, o, u (case insensitive).
+Chart must only be displayed between 3 PM and 5 PM IST
+→ Created calculated field named show chart time (reused from previous tasks):textIF DATEPART('hour', NOW()) >= 15
+AND DATEPART('hour', NOW()) < 17
+THEN TRUE
+ELSE FALSE
+END→ Dragged to Filters shelf → Selected True
+→ This hides the chart outside 3:00 PM – 4:59 PM IST.
+
+Chart Setup Summary:
+
+Marks: Tree Map (selected from Show Me panel)
+Size: SUM(Company Size) (bigger rectangle = larger company)
+Color: Automatic / Company (for distinction)
+Label: Company (shows company name inside rectangles)
+Title: “Task3-Tree Map”
+Top 10: Used Top N filter on Company (by SUM(Company Size), Top 10)
+
+Important Note on Dashboard:
+Many filters (Latitude < 10, B.Tech qualification, LinkedIn portal, Company Size ≥ 10,000) cause the tree map to become blank when all are applied together.
+So I created a Dashboard where:
+
+Core filters are applied by default
+Sensitive filters are shown as quick filters (user can turn them on/off)
+Floating text boxes show messages like:
+“Apply this filter to see updated view (currently showing broader data)”
+This way the dashboard stays interactive and useful even when strict filters remove all data.
+
+Result:
+The tree map highlights top companies (like DTE Energy) that posted Data Scientist jobs under the applied conditions.
+Only one large rectangle appears in the main view — showing how strict the rules are.
