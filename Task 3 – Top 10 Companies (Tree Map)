@@ -72,13 +72,9 @@ Contact Person name must end with a vowel
 → Created calculated field named ends with vowel:
 → Formula:textCONTAINS("aeiouAEIOU", RIGHT([Contact Person], 1)) = TRUE→ Dragged to Filters shelf → Selected True
 → This keeps only contact names ending with a, e, i, o, u (case insensitive).
+
 Chart must only be displayed between 3 PM and 5 PM IST
-→ Created calculated field named show chart time (reused from previous tasks):textIF DATEPART('hour', NOW()) >= 15
-AND DATEPART('hour', NOW()) < 17
-THEN TRUE
-ELSE FALSE
-END→ Dragged to Filters shelf → Selected True
-→ This hides the chart outside 3:00 PM – 4:59 PM IST.
+(reused from earlier tasks)
 
 Chart Setup Summary:
 
