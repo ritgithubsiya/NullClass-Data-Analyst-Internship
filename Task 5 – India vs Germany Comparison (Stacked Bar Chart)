@@ -1,0 +1,80 @@
+Task 5 – India vs Germany Comparison (Stacked Bar Chart):
+
+Created a stacked bar chart comparing job postings between India and Germany.
+The bar is stacked by Job Title (Data Scientist, Art Teacher, Aerospace Engineer).
+India is colored orange, Germany is colored green.
+Only female-preferred Full-Time jobs are shown after applying very strict filters.
+
+Filters / Conditions Applied:
+
+Qualification = B.Tech
+→ Dragged Qualifications field to Filters shelf
+→ Selected only “B.Tech”
+
+Work Type = Full-Time
+→ Dragged Work Type field to Filters shelf
+→ Selected only “Full-Time”
+
+Experience > 2 years
+→ Step 1: Created calculated field named experience end
+→ Formula (extracts the upper end of the experience range like “2 to 5 Years”):textINT(
+    MID(
+        [Experience],
+        FIND([Experience], " to ") + 4,
+        FIND([Experience], " Years") 
+            - (FIND([Experience], " to ") + 4)
+    )
+)
+→ Step 2: Created second calculated field named experience > 2
+→ Formula:text[experience end] > 2→ Dragged experience > 2 to Filters shelf → Selected True
+
+Job Title = Data Scientist, Art Teacher, or Aerospace Engineer
+→ Dragged Job Title field to Filters shelf
+→ Selected only “Data Scientist”, “Art Teacher”, and “Aerospace Engineer”
+
+Salary must be above $10,000
+→ Created calculated field named minimum salary extracted (reused from earlier tasks)
+Created second calculated field named salary > 10000:text[minimum salary extracted] > 10000→ Dragged salary > 10000 to Filters shelf → Selected True
+
+Job Portal = Indeed
+→ Dragged Job Portal field to Filters shelf
+→ Selected only “Indeed”
+
+Preference = Female
+→ Dragged Preference field to Filters shelf
+→ Selected only “Female”
+
+Only include postings before 08/01/2023
+→ Dragged Job Posting Date field to Filters shelf
+→ Selected “Range of Dates”
+→ Set ending date as 08/01/2023 (maximum = 07/31/2023 or used relative date filter “before 08/01/2023”)
+
+Location field must not be blank
+→ Created calculated field named Location not blank:
+→ Formula:textNOT ISNULL([Location]) AND TRIM([Location]) <> ""→ Dragged to Filters shelf → Selected True
+
+Company Name must have more than 8 characters
+→ Created calculated field named company > 8char:
+→ Formula:textLEN(TRIM([Company Name])) > 8→ Dragged to Filters shelf → Selected True
+
+Only India and Germany
+→ Dragged Country field to Filters shelf
+→ Selected only “India” and “Germany”
+
+Chart must only be displayed between 3 PM and 5 PM IST
+→ Created calculated field named show chart time(reused from earlier tasks)
+
+Chart Setup Summary:
+
+Columns: Country
+Rows: AGG(Postings count) ← created calculated field with value 1 to count postings
+Color: Job Title (stacked automatically)
+Manual colors: India = Orange, Germany = Green
+Mark type: Automatic (Bar)
+Title: “Task5-Stacked Bar”
+
+Result Note
+After applying all these very strict filters together, only Germany has a few qualifying postings (around 2–3).
+The bar is stacked (green for Art Teacher, light green for Aerospace Engineer).
+India has zero postings that match every condition — this is not a mistake, it is because the rules were very selective (especially Female preference + B.Tech + specific job titles + salary + experience + date + company name length + location not blank).
+The chart correctly shows only Germany as a result.
