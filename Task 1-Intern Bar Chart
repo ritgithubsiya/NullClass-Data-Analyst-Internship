@@ -1,5 +1,5 @@
-Task 1 – Preference vs Work Type (Intern Bar Chart) – Filter Implementation in Tableau
-Objective:
+Task 1 – Preference vs Work Type (Intern Bar Chart):
+
 Created a bar chart showing the number of Intern job postings by Preference (Both, Female, Male) after applying multiple strict conditions. The bars are sorted in descending order by count.
 Filters / Conditions Applied:
 
@@ -74,4 +74,5 @@ Sorted descending by Postings count
 Title: “Task1-Intern, Bar Chart”
 
 Result Note:
-After applying all these conditions together, only a small number of postings remained (around 60 for Both, 50 for Female, 41 for Male). This shows how selective and strict the task requirements were.
+After applying all these conditions together, only a small number of postings remained (around 60 for Both, 50 for Female, 41 for Male). 
+This shows how selective and strict the task requirements were.
