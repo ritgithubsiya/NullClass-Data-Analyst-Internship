@@ -1,5 +1,5 @@
-Task 4 – Qualification Drilldown Map (Map with Click) – Filter Implementation in Tableau
-Objective
+Task 4 – Qualification Drilldown Map (Map with Click):
+
 Created an interactive map visualization showing job postings in Africa for qualifications B.Tech, M.Tech, or PhD.
 Each orange dot represents a job posting (plotted using average Latitude and Longitude).
 Clicking on any dot drills down to a second map showing more detailed/exact location information.
@@ -14,7 +14,7 @@ Added floating text message: “Click any orange dot to see detailed location dr
 Added time restriction note: “Map visible only between 3 PM and 6 PM IST”
 
 
-Filters / Conditions Applied (how I implemented them)
+Filters / Conditions Applied (how I implemented them):
 
 Qualification must be B.Tech, M.Tech, or PhD
 → Dragged Qualifications field to Filters shelf
@@ -65,12 +65,7 @@ Salary Range > $20,000
 → Dragged to Filters shelf → Selected True
 
 Chart must only be displayed between 3 PM and 6 PM IST
-→ Created calculated field named show chart time:textIF DATEPART('hour', NOW()) >= 15
-AND DATEPART('hour', NOW()) < 18
-THEN TRUE
-ELSE FALSE
-END→ Dragged to Filters shelf → Selected True
-→ This hides the map outside 3:00 PM – 5:59 PM IST (based on system time).
+(reused from earlier tasks)
 
 Map Setup Summary:
 
