@@ -1,5 +1,5 @@
-Task 3 – Top 10 Companies (Tree Map) – Filter Implementation in Tableau
-Objective
+Task 3 – Top 10 Companies (Tree Map) :
+
 Created a tree map showing the top 10 companies (by company size) that posted jobs with Role = Data Engineer and Job Title = Data Scientist.
 The size of each rectangle represents the company size — bigger rectangle = larger company.
 Only very specific postings are included after applying strict filters.
