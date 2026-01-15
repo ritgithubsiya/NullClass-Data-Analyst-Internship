@@ -1,7 +1,8 @@
-Task 2 – Company Size vs Company Name (Scatter Plot) – Updated Filter Implementation in Tableau
-Objective
+Task 2 – Company Size vs Company Name (Scatter Plot):
+
 Created a scatter plot showing Company Size (horizontal axis) vs Company Name (vertical axis / labels), with each dot representing one job posting.
 Only very specific Mechanical Engineer jobs are shown after applying multiple strict filters.
+
 Filters / Conditions Applied:
 
 Job Title must be exactly “Mechanical Engineer”
