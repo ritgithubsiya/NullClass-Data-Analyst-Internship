@@ -1,0 +1,71 @@
+Task 6 – Work Type Salary Distribution (Box Plot):
+
+Created a box-and-whisker plot showing how salary ranges are distributed for Intern jobs only.
+The box shows the middle 50% of salaries, the line inside is the median, whiskers show the full range, and any dots outside are outliers.
+Only very specific Intern postings are included after applying many strict filters.
+
+Filters / Conditions Applied:
+
+Work Type must be “Intern”
+→ Dragged Work Type field to Filters shelf
+→ Selected only “Intern”
+→ This makes sure the box plot shows only internship jobs.
+
+Latitude below 10
+→ Dragged Latitude field to Filters shelf
+→ Selected “Range of Values”
+→ Set maximum < 10 (e.g., up to 9.99)
+→ This keeps postings from locations near or below the equator.
+
+Country name must not start with A, B, C, or D
+→ Dragged Country field to Filters shelf
+→ Went to General tab
+→ Manually unselected countries starting with A, B, C, or D (or used wildcard exclude “A*”, “B*”, “C*”, “D*”)
+→ This removes countries like Australia, Brazil, Canada, Denmark, etc.
+
+Job Title must have fewer than 10 characters and be a single word
+→ Created calculated field named job title filter:
+→ Formula:textLEN(TRIM([Job Title])) < 10 
+AND 
+CONTAINS([Job Title], ' ') = FALSE→ Dragged to Filters shelf → Selected True
+
+Company Size < 50,000
+→ Dragged Company Size field to Filters shelf
+→ Selected “Range of Values”
+→ Set maximum = 49,999
+→ This includes only small and medium-sized companies.
+
+Salary > $8,000
+→ Created calculated field named minimum salary extracted:(reused from earlier tasks)
+ Created second calculated field named salary > 8000:text[minimum salary extracted] > 8000→ Dragged salary > 8000 to Filters shelf → Selected True
+
+Experience must be an even number
+→ Created calculated field named even experience:
+→ Formula:textINT([Experience]) % 2 = 0→ Dragged to Filters shelf → Selected True
+→ This keeps only even years of experience (2, 4, 6, 8…).
+
+Job Posting Date between 2021–2023
+→ Dragged Job Posting Date field to Filters shelf
+→ Selected “Range of Dates”
+→ Set start: 01/01/2021 → end: 12/31/2023
+→ This includes only postings from these three years.
+
+Contact Person name must contain at least one “e”
+→ Created calculated field named CP contains e:
+→ Formula:textCONTAINS(LOWER([Contact Person]), 'e')→ Dragged to Filters shelf → Selected True
+→ This keeps names that have at least one “e” (like Peter, Elena, Steve).
+
+Chart must only be displayed between 3 PM and 5 PM IST
+(reused from earlier tasks)
+
+Chart Setup Summary:
+
+Columns: Work Type (only Intern shows)
+Rows: minimum salary extracted (measure showing lower end of salary range)
+Mark type: Box-and-Whisker (selected from Show Me)
+Title: “Task6-Box Plot”
+
+Result Note
+The box plot shows Intern salaries mostly between 55K and 65K (middle 50%), with median around 60K.
+The whiskers go from about 50K to 70K.
+Only a few postings matched all these strict rules — that’s why the box is small and clean.
